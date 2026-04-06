@@ -41,8 +41,7 @@ def insert_books(conn, books):
             with conn.cursor() as cursor:
                 cursor.execute("""
                     INSERT INTO books (id, title, author, genre, publisher, year, price)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (id) DO NOTHING;
+                    VALUES (%s, %s, %s, %s, %s, %s, %s);
                 """, (
                     book.get("id"),
                     book.get("title"),
@@ -61,4 +60,9 @@ def insert_books(conn, books):
             print(f"Could not insert book '{book.get('title')}': {e}")
             skipped += 1
 
-    print(f"Finished! Inserted {inserted} books, skipped {skipped}")
+    print(f"Inserted {inserted} books, skipped {skipped}")
+    
+    json_count = len(books)
+    print("JSON count:", json_count)
+
+
