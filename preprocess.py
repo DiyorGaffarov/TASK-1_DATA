@@ -1,7 +1,9 @@
 import re
 import json
+from database import get_connection, create_books_table, insert_books
 
-with open("dataset/task1_d.json", "r") as f:
+
+with open("dataset/task1_d.json", "r", encoding="utf-8") as f:
     data = f.read()
 
 data = re.sub(r":(\w+)=>", r'"\1":', data)
@@ -17,3 +19,8 @@ with open("dataset/task1_d_processed.json", "w", encoding="utf-8") as f:
     json.dump(books, f, indent=4, ensure_ascii=False)
 
 
+
+conn = get_connection()
+create_books_table(conn)
+insert_books(conn, books)
+conn.close()
